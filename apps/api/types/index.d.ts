@@ -17,9 +17,12 @@ declare module '@beavr/types' {
 
   interface Document {
     id: string;
-    docType: DocumentType;
     version: Date;
     status: DocumentStatus;
     expirationDate: Date;
+  }
+
+  interface DocumentWithDocumentType extends Document {
+    docType: DocumentType;
   }
 }

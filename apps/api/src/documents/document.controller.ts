@@ -3,30 +3,30 @@ import { DocumentService } from './document.service';
 
 @Controller('documents')
 export class DocumentController {
-  constructor(private readonly requirementService: DocumentService) {}
+  constructor(private readonly documentService: DocumentService) {}
 
   @Get()
   async getAll(): Promise<unknown[]> {
-    return [];
+    return this.documentService.getAll();
   }
 
   @Get('types')
   async getDocumentTypes(): Promise<unknown[]> {
-    return [];
+    return this.documentService.getDocumentTypes();
   }
 
-  @Post(':id')
+  @Post()
   async create(): Promise<void> {
-    return;
+    return this.documentService.create();
   }
 
   @Put(':id')
   async update(): Promise<void> {
-    return;
+    // return this.documentService.update();
   }
 
   @Delete(':id')
   async delete(): Promise<void> {
-    return;
+    // return this.documentService.delete();
   }
 }
