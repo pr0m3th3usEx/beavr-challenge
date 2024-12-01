@@ -22,7 +22,7 @@ function App() {
             <Link>Documents</Link>
           </NavLink>
         </HStack>
-        <Box bg="green" flexGrow={1} height="auto">
+        <Box flexGrow={1} height="auto">
           <Routes>
             <Route index element={<Requirements />} />
             <Route path="documents" element={<Documents />} />

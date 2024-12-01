@@ -18,7 +18,7 @@ export const Fetcher = {
     method: string,
     path: string,
     body: BodyInit | null = null,
-    headers: HeadersInit = {},
+    headers: HeadersInit = { 'Content-Type': 'application/json' },
   ): Promise<FetchResp<T>> => {
     return await fetch(path, { method, headers, body }).then(async (res) => {
       if (res.status < 200 || res.status >= 300) {
