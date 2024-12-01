@@ -15,17 +15,18 @@ Requirements table:
 - id
 - name
 - description
-- Required Documents List
-- Documents[]
+- requiredDocuments: DocumentType[]
 
 
-Documents table:
-- id
+DocumentType table:
 - type
+- addedAt
+
+UploadedDocuments:
+- documentType: DocumentType
 - version (Date)
 - status (IN_PROGRESS, ACCEPTED, REFUSED, EXPIRED)
 - expiration_date
-
 
 
 // Entities
