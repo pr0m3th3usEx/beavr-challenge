@@ -4,7 +4,7 @@ import { PrismaService } from 'src/database/prisma.service';
 import { IRequirementRepository } from 'src/requirements/contracts/requirement.repo';
 
 @Injectable()
-export class PostgresDocumentRepository implements IRequirementRepository {
+export class PostgresRequirementRepository implements IRequirementRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async getRequirements(): Promise<RequirementWithRequiredDocuments[]> {

@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ForbiddenException,
   Inject,
   Injectable,
@@ -31,7 +30,7 @@ export class DocumentService {
     const docTypes = await this.documentRepository.getDocumentTypes();
 
     if (!docTypes.includes(dto.docType)) {
-      throw new BadRequestException();
+      throw new ForbiddenException();
     }
 
     const version = new Date();
@@ -82,10 +81,10 @@ export class DocumentService {
   }
 
   async getAll(): Promise<DocumentWithDocumentType[]> {
-    throw new Error('Not implemented');
+    return this.documentRepository.getAll();
   }
 
   async getDocumentTypes(): Promise<DocumentType[]> {
-    throw new Error('Not implemented');
+    return this.documentRepository.getDocumentTypes();
   }
 }
