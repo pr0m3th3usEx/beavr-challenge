@@ -1,4 +1,4 @@
-import { createListCollection, IconButton, PopoverRootProps } from '@chakra-ui/react';
+import { createListCollection, IconButton } from '@chakra-ui/react';
 import {
   PopoverBody,
   PopoverCloseTrigger,

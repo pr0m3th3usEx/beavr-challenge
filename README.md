@@ -1,40 +1,55 @@
-# pnpm-ts-monorepo-boilerplate
+# Beavr Take-Home assessment
 
-A simple boilerplate for your typescript monorepo projects using pnpm
+## Setup
+
+### Clone repository
+
+```shell
+git clone https://github.com/pr0m3th3usEx/beavr-challenge.git
+cd beavr-challenge
+```
+
+### Install dependencies
+
+Installation requires `pnpm`
+
+```shell
+pnpm install
+```
+
+### Seed database
+
+```shell
+# Run database using docker
+docker compose up -d
+# Apply migration to the database (this will seed the tables automatically)
+cd apps/api
+pnpm run db:deploy
+```
+
+## Run application
 
 
-1 - Setup NestJS App & Build
-2 - Prepare Database Schemas with Prisma
-3 - Implement repositories & controllers
-4 - React App
+### API
 
-Database tables:
+```shell
+# From repository root
+cd apps/api
+pnpm start:dev
+```
 
-Requirements table:
+### Webapp
+```shell
+# From repository root
+cd apps/app
+pnpm dev
+```
 
-- id
-- name
-- description
-- requiredDocuments: DocumentType[]
+## Database
 
+Get details about the database structure [here](./DATABASE.md)
 
-DocumentType table:
-- type
-- addedAt
+## Images
 
-UploadedDocuments:
-- documentType: DocumentType
-- version (Date)
-- status (IN_PROGRESS, ACCEPTED, REFUSED, EXPIRED)
-- expiration_date
-
-
-// Entities
-
-Requirement
-
-id / name / description / status / documents (optional)
-
-Document
-
-id / type / version / status / expiration date
+![Requirements page](./.github/assets/requirements.png "Requirements page")
+![Documents page](./.github/assets/documents.png "Documents page")
