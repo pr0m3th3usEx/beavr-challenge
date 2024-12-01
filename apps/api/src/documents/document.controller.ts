@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { DocumentService } from './document.service';
-import { CreateDocumentResponse, DocumentType, DocumentWithDocumentType } from '@beavr/types';
+import { CreateDocumentResponse, GetDocumentsResponse, GetDocumentTypesResponse } from '@beavr/types';
 import { CreateDocumentDto, GetDocumentParams, UpdateDocumentDto } from 'src/dto';
 
 @Controller('documents')
@@ -8,13 +8,17 @@ export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
   @Get()
-  async getAll(): Promise<DocumentWithDocumentType[]> {
-    return this.documentService.getAll();
+  async getAll(): Promise<GetDocumentsResponse> {
+    return {
+      documents: await this.documentService.getAll(),
+    };
   }
 
   @Get('types')
-  async getDocumentTypes(): Promise<DocumentType[]> {
-    return this.documentService.getDocumentTypes();
+  async getDocumentTypes(): Promise<GetDocumentTypesResponse> {
+    return {
+      documentTypes: await this.documentService.getDocumentTypes(),
+    };
   }
 
   @Post()

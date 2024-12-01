@@ -1,13 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 import { RequirementService } from './requirement.service';
-import { RequirementWithStatus } from '@beavr/types';
+import { GetRequirementsResponse } from '@beavr/types';
 
 @Controller('requirements')
 export class RequirementController {
   constructor(private readonly requirementService: RequirementService) {}
 
   @Get()
-  async getAll(): Promise<RequirementWithStatus[]> {
-    return this.requirementService.getAll();
+  async getAll(): Promise<GetRequirementsResponse> {
+    return {
+      requirements: await this.requirementService.getAll(),
+    };
   }
 }

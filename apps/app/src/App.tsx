@@ -1,30 +1,24 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { Box, HStack, Link } from '@chakra-ui/react';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import Requirements from './pages/Requirements';
+import Documents from './pages/Documents';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <Box display="flex" flexDirection="column" flexWrap="nowrap" justifyContent="start" alignItems="stretch" gap="12px">
+      <HStack w="100%" flexGrow={0} flexShrink={1} bg="blue.500" py="18px" px="14px" gap="24px">
+        <Link>Requirements</Link>
+        <Link>Documents</Link>
+      </HStack>
+      <Box bg="green" flexGrow={1} height="auto">
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<Requirements />} />
+            <Route index element={<Documents />} />
+          </Routes>
+        </BrowserRouter>
+      </Box>
+    </Box>
   );
 }
 

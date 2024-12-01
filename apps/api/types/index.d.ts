@@ -33,4 +33,16 @@ declare module '@beavr/types' {
   }
 
   type CreateDocumentResponse = Pick<Document, 'id'>;
+
+  interface GetDocumentTypesResponse {
+    documentTypes: DocumentType[];
+  }
+
+  interface GetDocumentsResponse {
+    documents: DocumentWithDocumentType[];
+  }
+
+  interface GetRequirementsResponse {
+    requirements: RequirementWithStatus[];
+  }
 }
