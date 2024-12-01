@@ -22,8 +22,10 @@ model Requirement {
 }
 
 model DocumentType {
-  docType String   @unique
-  addedAt DateTime @default(now())
+  docType     String   @unique
+  name        String
+  description String
+  addedAt     DateTime @default(now())
 
   documents           Document[]
   relatedRequirements DocumentTypeForRequirements[]

@@ -13,6 +13,8 @@ CREATE TABLE "Requirement" (
 -- CreateTable
 CREATE TABLE "DocumentType" (
     "docType" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
     "addedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
