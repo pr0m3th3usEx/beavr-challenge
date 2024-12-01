@@ -7,8 +7,19 @@ import { IDocumentRepository } from 'src/documents/contracts/document.repo';
 export class PostgresDocumentRepository implements IDocumentRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async get(_id: string): Promise<Document | null> {
-    throw new Error('Method not implemented.');
+  async get(id: string): Promise<Document | null> {
+    const result = await this.prismaService.document.findUnique({
+      where: { id },
+    });
+
+    if (!result) return null;
+
+    return {
+      id: result.id,
+      expirationDate: result.expirationDate,
+      status: result.status,
+      version: result.version,
+    };
   }
 
   async create(doc: Document, docType: DocumentType): Promise<Document> {

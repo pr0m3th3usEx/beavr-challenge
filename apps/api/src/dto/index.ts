@@ -1,9 +1,9 @@
-import { DocumentStatus, DocumentType } from '@beavr/types';
+import { DocumentStatus } from '@beavr/types';
 import { IsIn, IsString, IsUUID } from 'class-validator';
 
 export class CreateDocumentDto {
   @IsString()
-  docType: DocumentType;
+  docType: string;
 }
 
 export class UpdateDocumentDto {

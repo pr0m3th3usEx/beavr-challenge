@@ -1,22 +1,9 @@
-import {
-  ForbiddenException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { IDocumentRepository } from './contracts/document.repo';
-import {
-  CreateDocumentResponse,
-  Document,
-  DocumentType,
-  DocumentWithDocumentType,
-} from '@beavr/types';
+import { CreateDocumentResponse, Document, DocumentType, DocumentWithDocumentType } from '@beavr/types';
 import { CreateDocumentDto, UpdateDocumentDto } from 'src/dto';
 import { v4 } from 'uuid';
-import {
-  DOC_DEFAULT_STATUS,
-  DOC_EXPIRATION_TIME_MILLISECONDS,
-} from 'src/constants';
+import { DOC_DEFAULT_STATUS, DOC_EXPIRATION_TIME_MILLISECONDS } from 'src/constants';
 import { canDocStatusBeUpdated } from './utils';
 
 @Injectable()
@@ -29,14 +16,12 @@ export class DocumentService {
   async create(dto: CreateDocumentDto): Promise<CreateDocumentResponse> {
     const docTypes = await this.documentRepository.getDocumentTypes();
 
-    if (!docTypes.includes(dto.docType)) {
+    if (docTypes.findIndex(({ docType }) => docType === dto.docType) < 0) {
       throw new ForbiddenException();
     }
 
     const version = new Date();
-    const expirationDate = new Date(
-      Date.now() + DOC_EXPIRATION_TIME_MILLISECONDS,
-    );
+    const expirationDate = new Date(Date.now() + DOC_EXPIRATION_TIME_MILLISECONDS);
 
     const newDocument: Document = {
       id: v4(),
@@ -45,7 +30,7 @@ export class DocumentService {
       status: DOC_DEFAULT_STATUS,
     };
 
-    const res = await this.documentRepository.create(newDocument, dto.docType);
+    const res = await this.documentRepository.create(newDocument, { docType: dto.docType });
 
     return {
       id: res.id,
@@ -67,9 +52,7 @@ export class DocumentService {
       throw new ForbiddenException();
     }
 
-    const expirationDate = new Date(
-      Date.now() + DOC_EXPIRATION_TIME_MILLISECONDS,
-    );
+    const expirationDate = new Date(Date.now() + DOC_EXPIRATION_TIME_MILLISECONDS);
 
     const updatedDocument: Document = {
       ...document,

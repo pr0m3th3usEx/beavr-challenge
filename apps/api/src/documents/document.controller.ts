@@ -1,23 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { DocumentService } from './document.service';
-import {
-  CreateDocumentResponse,
-  DocumentType,
-  DocumentWithDocumentType,
-} from '@beavr/types';
-import {
-  CreateDocumentDto,
-  GetDocumentParams,
-  UpdateDocumentDto,
-} from 'src/dto';
+import { CreateDocumentResponse, DocumentType, DocumentWithDocumentType } from '@beavr/types';
+import { CreateDocumentDto, GetDocumentParams, UpdateDocumentDto } from 'src/dto';
 
 @Controller('documents')
 export class DocumentController {
@@ -34,17 +18,12 @@ export class DocumentController {
   }
 
   @Post()
-  async create(
-    @Body() body: CreateDocumentDto,
-  ): Promise<CreateDocumentResponse> {
+  async create(@Body() body: CreateDocumentDto): Promise<CreateDocumentResponse> {
     return this.documentService.create(body);
   }
 
   @Put(':id')
-  async update(
-    @Param() { id }: GetDocumentParams,
-    @Body() body: UpdateDocumentDto,
-  ): Promise<void> {
+  async update(@Param() { id }: GetDocumentParams, @Body() body: UpdateDocumentDto): Promise<void> {
     return this.documentService.update(id, body);
   }
 
