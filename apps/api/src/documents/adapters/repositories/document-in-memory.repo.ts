@@ -1,9 +1,4 @@
-import {
-  Document,
-  DocumentStatus,
-  DocumentType,
-  DocumentWithDocumentType,
-} from '@beavr/types';
+import { Document, DocumentType, DocumentWithDocumentType } from '@beavr/types';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { IDocumentRepository } from 'src/documents/contracts/document.repo';
 

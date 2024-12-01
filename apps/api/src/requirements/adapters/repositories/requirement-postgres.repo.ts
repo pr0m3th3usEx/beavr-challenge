@@ -19,7 +19,9 @@ export class PostgresRequirementRepository implements IRequirementRepository {
       name: requirement.name,
       description: requirement.description,
       requiredDocuments: requirement.requiredDocuments.map<DocumentType>(
-        (requiredDoc) => ({ docType: requiredDoc.docTypeName }),
+        (requiredDoc) => ({
+          docType: requiredDoc.docTypeName,
+        }),
       ),
     }));
   }

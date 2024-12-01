@@ -7,9 +7,6 @@ const statusLevel: Record<DocumentStatus, number> = {
   EXPIRED: 2,
 };
 
-export const canDocStatusBeUpdated = (
-  oldStatus: DocumentStatus,
-  newStatus: DocumentStatus,
-): boolean => {
+export const canDocStatusBeUpdated = (oldStatus: DocumentStatus, newStatus: DocumentStatus): boolean => {
   return statusLevel[oldStatus] < statusLevel[newStatus];
 };

@@ -41,8 +41,6 @@
     "@types/supertest": "^6.0.0",
     "@types/uuid": "^10.0.0",
     "eslint-config-custom": "workspace:*",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "prettier-config-custom": "workspace:*",
     "prisma": "^6.0.0"
   }
