@@ -1,7 +1,6 @@
 import useGetDocumentsQuery from '@/hooks/query/useGetDocuments';
 import { DocumentStatus } from '@beavr/api';
 import { MdDelete } from 'react-icons/md';
-import { HiPencil } from 'react-icons/hi2';
 import { Badge, Heading, HStack, Table, Text, VStack, createListCollection, IconButton } from '@chakra-ui/react';
 import useGetDocumentsTypesQuery from '@/hooks/query/useGetDocumentTypes';
 import { useMemo, useState } from 'react';
@@ -9,13 +8,14 @@ import { SelectContent, SelectItem, SelectRoot, SelectTrigger, SelectValueText }
 import useCreateDocument from '@/hooks/mutations/useCreateDocument';
 import useDeleteDocument from '@/hooks/mutations/useDeleteDocument';
 import { Button } from '@/components/ui/button';
+import UpdateButton from '@/components/UpdateButton';
 
 function Documents() {
   const [selectedDocType, setSelectedDocType] = useState<string | null>(null);
   const { data, isLoading, error } = useGetDocumentsQuery();
   const { data: docTypesList, isLoading: isLoadingDocTypes, error: errorDocTypes } = useGetDocumentsTypesQuery();
   const { createDocument, isMutating: isCreating } = useCreateDocument();
-  const { deleteDocument } = useDeleteDocument();
+  const { deleteDocument, isMutating: isDeleting } = useDeleteDocument();
 
   const docTypesItems = useMemo(() => {
     if (!docTypesList) return createListCollection({ items: [] });
@@ -88,31 +88,33 @@ function Documents() {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {data.documents.map((item) => (
-              <Table.Row key={item.id}>
-                <Table.Cell>{item.docType.docType}</Table.Cell>
-                <Table.Cell>{item.version}</Table.Cell>
-                <Table.Cell>
-                  <Badge colorPalette={getDocumentStatusColor(item.status)}>{item.status}</Badge>
-                </Table.Cell>
-                <Table.Cell textAlign="end">
-                  <HStack gap="8px" justifyContent={'end'}>
-                    <IconButton>
-                      <HiPencil />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {
-                        deleteDocument({ id: item.id })
-                          .then(() => console.log(`Doc ${item.id} deleted`))
-                          .catch((err) => console.error(err));
-                      }}
-                    >
-                      <MdDelete />
-                    </IconButton>
-                  </HStack>
-                </Table.Cell>
-              </Table.Row>
-            ))}
+            {data.documents
+              .slice()
+              .sort((a, b) => new Date(b.version).getTime() - new Date(a.version).getTime())
+              .map((item) => (
+                <Table.Row key={item.id}>
+                  <Table.Cell>{item.docType.docType}</Table.Cell>
+                  <Table.Cell>{item.version}</Table.Cell>
+                  <Table.Cell>
+                    <Badge colorPalette={getDocumentStatusColor(item.status)}>{item.status}</Badge>
+                  </Table.Cell>
+                  <Table.Cell textAlign="end">
+                    <HStack gap="8px" justifyContent={'end'}>
+                      <UpdateButton id={item.id} />
+                      <IconButton
+                        disabled={isDeleting}
+                        onClick={() => {
+                          deleteDocument({ id: item.id })
+                            .then(() => console.log(`Doc ${item.id} deleted`))
+                            .catch((err) => console.error(err));
+                        }}
+                      >
+                        <MdDelete />
+                      </IconButton>
+                    </HStack>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
           </Table.Body>
         </Table.Root>
       </VStack>
