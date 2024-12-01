@@ -15,6 +15,11 @@ declare module '@beavr/types' {
     status: RequirementStatus;
   }
 
+  interface RequirementWithStatusAndDocs extends Requirement {
+    status: RequirementStatus;
+    requiredDocuments: DocumentType[];
+  }
+
   interface DocumentType {
     docType: string;
   }
@@ -43,6 +48,6 @@ declare module '@beavr/types' {
   }
 
   interface GetRequirementsResponse {
-    requirements: RequirementWithStatus[];
+    requirements: RequirementWithStatusAndDocs[];
   }
 }

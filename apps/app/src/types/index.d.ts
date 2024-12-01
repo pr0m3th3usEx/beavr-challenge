@@ -49,6 +49,7 @@ declare module '@beavr/api' {
     id: string;
     name: string;
     description: string;
+    requiredDocuments: DocumentType[];
     status: RequirementStatus;
   }
 

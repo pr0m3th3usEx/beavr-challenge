@@ -22,6 +22,7 @@ function Requirements() {
             <Table.Row>
               <Table.ColumnHeader>Name</Table.ColumnHeader>
               <Table.ColumnHeader>Description</Table.ColumnHeader>
+              <Table.ColumnHeader>Required documents</Table.ColumnHeader>
               <Table.ColumnHeader textAlign="end">Status</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
@@ -30,6 +31,7 @@ function Requirements() {
               <Table.Row key={item.id}>
                 <Table.Cell>{item.name}</Table.Cell>
                 <Table.Cell>{item.description}</Table.Cell>
+                <Table.Cell>{item.requiredDocuments.map(({ docType }) => docType).join(', ')}</Table.Cell>
                 <Table.Cell textAlign="end">
                   <Badge colorPalette={item.status === 'COMPLIANT' ? 'green' : 'red'}>{item.status}</Badge>
                 </Table.Cell>
