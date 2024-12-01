@@ -1,10 +1,11 @@
-import { Document, DocumentWithDocumentType } from '@beavr/types';
+import { Document, DocumentType, DocumentWithDocumentType } from '@beavr/types';
 
 export interface IDocumentRepository {
-  create(): Promise<Document>;
-  update(id: string): Promise<Document>;
-  get(id: string): Promise<DocumentWithDocumentType>;
+  get(id: string): Promise<Document | null>;
+  create(doc: Document, docType: DocumentType): Promise<Document>;
+  update(newDoc: Document): Promise<void>;
   getAll(): Promise<DocumentWithDocumentType[]>;
+  getDocumentTypes(): Promise<DocumentType[]>;
   delete(id: string): Promise<void>;
 }
 

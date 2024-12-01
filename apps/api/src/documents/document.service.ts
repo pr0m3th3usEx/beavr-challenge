@@ -1,6 +1,24 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { IDocumentRepository } from './contracts/document.repo';
-import { DocumentType, DocumentWithDocumentType } from '@beavr/types';
+import {
+  CreateDocumentResponse,
+  Document,
+  DocumentType,
+  DocumentWithDocumentType,
+} from '@beavr/types';
+import { CreateDocumentDto, UpdateDocumentDto } from 'src/dto';
+import { v4 } from 'uuid';
+import {
+  DOC_DEFAULT_STATUS,
+  DOC_EXPIRATION_TIME_MILLISECONDS,
+} from 'src/constants';
+import { canDocStatusBeUpdated } from './utils';
 
 @Injectable()
 export class DocumentService {
@@ -9,20 +27,58 @@ export class DocumentService {
     private readonly documentRepository: IDocumentRepository,
   ) {}
 
-  async create(): Promise<void> {
-    throw new Error('Not implemented');
+  async create(dto: CreateDocumentDto): Promise<CreateDocumentResponse> {
+    const docTypes = await this.documentRepository.getDocumentTypes();
+
+    if (!docTypes.includes(dto.docType)) {
+      throw new BadRequestException();
+    }
+
+    const version = new Date();
+    const expirationDate = new Date(
+      Date.now() + DOC_EXPIRATION_TIME_MILLISECONDS,
+    );
+
+    const newDocument: Document = {
+      id: v4(),
+      expirationDate,
+      version,
+      status: DOC_DEFAULT_STATUS,
+    };
+
+    const res = await this.documentRepository.create(newDocument, dto.docType);
+
+    return {
+      id: res.id,
+    };
   }
 
-  async delete(): Promise<void> {
-    throw new Error('Not implemented');
+  async delete(id: string): Promise<void> {
+    return this.documentRepository.delete(id);
   }
 
-  async update(_id: string): Promise<void> {
-    return;
-  }
+  async update(id: string, dto: UpdateDocumentDto): Promise<void> {
+    const document = await this.documentRepository.get(id);
 
-  async get(_id: string): Promise<DocumentWithDocumentType> {
-    throw new Error('Not implemented');
+    if (!document) {
+      throw new NotFoundException();
+    }
+
+    if (!canDocStatusBeUpdated(document.status, dto.status)) {
+      throw new ForbiddenException();
+    }
+
+    const expirationDate = new Date(
+      Date.now() + DOC_EXPIRATION_TIME_MILLISECONDS,
+    );
+
+    const updatedDocument: Document = {
+      ...document,
+      status: dto.status,
+      expirationDate,
+    };
+
+    await this.documentRepository.update(updatedDocument);
   }
 
   async getAll(): Promise<DocumentWithDocumentType[]> {

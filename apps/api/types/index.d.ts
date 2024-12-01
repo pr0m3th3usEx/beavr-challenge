@@ -5,8 +5,14 @@ declare module '@beavr/types' {
     description: string;
   }
 
-  interface RequirementWithRequiredDocuments extends Requirement  {
+  interface RequirementWithRequiredDocuments extends Requirement {
     requiredDocuments: DocumentType[];
+  }
+
+  type RequirementStatus = 'NOT_COMPLIANT' | 'COMPLIANT';
+
+  interface RequirementWithStatus extends Requirement {
+    status: RequirementStatus;
   }
 
   interface DocumentType {
@@ -25,4 +31,6 @@ declare module '@beavr/types' {
   interface DocumentWithDocumentType extends Document {
     docType: DocumentType;
   }
+
+  type CreateDocumentResponse = Pick<Document, 'id'>;
 }
